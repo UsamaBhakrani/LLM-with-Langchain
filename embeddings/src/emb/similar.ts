@@ -17,10 +17,10 @@ const cosineSimilarity = (a: number[], b: number[]) => {
 
 const main = async () => {
   const dataWithEmbeddings = loadJSONData<DataWithEmbeddings[]>(
-    "dataWithEmbeddings.json"
+    "dataWithEmbeddings2.json"
   );
 
-  const input = "animal";
+  const input = "What Food does John eat?";
 
   const inputEmbedding = await generateEmbeddings(input);
 
@@ -42,7 +42,7 @@ const main = async () => {
 
   console.log(`Similarity of ${input} with:`);
   const sortedSimilarities = similarities.sort(
-    (a, b) => a.similarity - b.similarity
+    (a, b) => b.similarity - a.similarity
   );
   sortedSimilarities.forEach((similarity) => {
     console.log(`${similarity.input} - ${similarity.similarity}`);
