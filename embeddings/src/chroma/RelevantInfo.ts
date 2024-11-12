@@ -55,11 +55,12 @@ const populateCollection = async () => {
 
 const askQuestion = async () => {
   const collection = await getCollection();
-  const question = "When does the chess club meet?";
+  const question =
+    "tell me the size of the washington buildings in square yards";
 
   const results = await collection.query({
-    queryTexts: question, // Chroma will embed this for you
-    nResults: 1, // how many results to return
+    queryTexts: question,
+    nResults: 1,
   });
 
   const relevantInfo = results.documents[0][0];
