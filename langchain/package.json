@@ -3,15 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node -r ts-node/register --env-file=.env src/rag/Basic.ts"
+    "start": "node -r ts-node/register --env-file=.env src/rag/Web.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@langchain/community": "^0.3.14",
     "@langchain/core": "^0.3.18",
     "@langchain/openai": "^0.3.13",
+    "cheerio": "^1.0.0",
     "langchain": "^0.3.5"
   },
   "devDependencies": {
