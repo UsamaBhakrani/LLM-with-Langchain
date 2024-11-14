@@ -2,26 +2,20 @@ import { Document } from "@langchain/core/documents";
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
-
-const loader = new CheerioWebBaseLoader(
-  "https://www.accuweather.com/en/pk/karachi"
-);
+import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 
 const model = new ChatOpenAI({
   modelName: "gpt-3.5-turbo",
   temperature: 0.8,
 });
 
-const question = "What is the whether like today in Karachi?";
+const question = "What is criteria for Assessing Performance at mazik?";
 
 const main = async () => {
+  const loader = new PDFLoader("Handbook.pdf", { splitPages: true });
   const myData = await loader.load();
-  const splitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 200,
-    chunkOverlap: 20,
-  });
+  const splitter = new RecursiveCharacterTextSplitter({ separators: [`. \n`] });
 
   const splittedData = await splitter.splitDocuments(myData);
 
@@ -33,7 +27,7 @@ const main = async () => {
 
   // create data retriever
   const retreiver = vectorStore.asRetriever({
-    k: 2,
+    k: 5,
   });
 
   // Use the LLM chain to find relevant documents
@@ -43,7 +37,7 @@ const main = async () => {
   const template = ChatPromptTemplate.fromMessages([
     [
       "system",
-      "Answer the users question based on the following context: {context}",
+      "Give reference to the document and answer the users question based on the following context: {context}",
     ],
     ["user", "{input}"],
   ]);
